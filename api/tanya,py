@@ -1,7 +1,24 @@
-import json
+
+import json, os
+from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from pathlib import Path
+
+# data_sastra tetap di sini...
+
+def handler(request):
+    body = request.json()
+    tanya = body.get("pertanyaan", "")
+    corpus = list(data_sastra.keys())
+    tfidf = TfidfVectorizer()
+    matrix = tfidf.fit_transform(corpus + [tanya])
+    idx = cosine_similarity(matrix[-1], matrix[:-1]).argmax()
+    jawaban = list(data_sastra.values())[idx]
+    return {
+        "statusCode": 200,
+        "headers": {"Content-Type": "application/json"},
+        "body": json.dumps({"jawaban": jawaban})
+    }
 
 # 🔤 Data tanya‑jawab
 data_sastra = { 

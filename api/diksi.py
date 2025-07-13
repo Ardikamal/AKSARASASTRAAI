@@ -1,8 +1,12 @@
-import json
+import json, os
 from pathlib import Path
 
-# 📚 Muat daftar kata
-KATA = [w.strip().lower() for w in Path("static/daftar_kata.txt").read_text(encoding="utf-8").splitlines()]
+# cari path direktori static
+BASE = Path(__file__).parent.parent
+KATA = [w.strip().lower()
+    for w in (BASE / "static/daftar_kata.txt")
+        .read_text(encoding="utf-8")
+        .splitlines()]
 
 def handler(request):
     body = request.json()

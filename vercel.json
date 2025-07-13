@@ -6,26 +6,22 @@
             "use": "@vercel/python"
         },
         {
-            "src": "public/**/*",
-            "use": "@vercel/static"
-        },
-        {
-            "src": "static/**/*",
+            "src": "public/**",
             "use": "@vercel/static"
         }
     ],
     "routes": [
         {
-            "src": "/api/(.*)",
-            "dest": "/api/$1.py"
+            "src": "/",
+            "dest": "/public/index.html"
         },
         {
-            "src": "/(.*\\.txt)",
-            "dest": "/static/$1"
+            "src": "/tanya",
+            "dest": "/api/tanya.py"
         },
         {
-            "src": "/(.*)",
-            "dest": "/public/$1"
+            "src": "/diksi",
+            "dest": "/api/diksi.py"
         }
     ]
 }

@@ -133,5 +133,19 @@
         }
     </script>
 </body>
+<!-- … -->
+<script>
+    async function kirimTanya() {
+        const pertanyaan = document.getElementById("tanya").value;
+        const res = await fetch("/tanya", { /* … */ });
+        /* … */
+    }
+    async function cariDiksi() {
+        const akhiran = document.getElementById("akhiran").value;
+        const res = await fetch("/diksi", { /* … */ });
+        /* … */
+    }
+</script>
+<!-- … -->
 
 </html>
