@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI AKSARA - Tanya Wawasan Sastra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: url('https://images.unsplash.com/photo-1584948094684-fd49f39995b2?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #2f2f2f;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 80px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #4e342e;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #6d4c41;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        button:hover {
+            background-color: #5d4037;
+        }
+
+        #jawaban {
+            font-style: italic;
+            background-color: #f3f3f3;
+            padding: 15px;
+            border-left: 5px solid #6d4c41;
+            margin-bottom: 30px;
+            border-radius: 10px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 6px;
+        }
+
+        .subheading {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>AI AKSARA TANYA SASTRA</h1>
+
+        <div>
+            <p class="subheading">Tanyakan tentang sastra:</p>
+            <input type="text" id="tanya" placeholder="Contoh: Apa itu puisi?">
+            <button onclick="kirimTanya()">Tanya</button>
+            <p id="jawaban"></p>
+        </div>
+
+        <hr>
+
+        <div>
+            <p class="subheading">Cari diksi berdasarkan akhiran:</p>
+            <input type="text" id="akhiran" placeholder="Contoh: an, ah, as">
+            <button onclick="cariDiksi()">Cari Diksi</button>
+            <ul id="hasil_diksi"></ul>
+        </div>
+    </div>
+
+    <script>
+        async function kirimTanya() {
+            const pertanyaan = document.getElementById("tanya").value;
+            const res = await fetch("/tanya", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ pertanyaan })
+            });
+            const data = await res.json();
+            document.getElementById("jawaban").innerText = data.jawaban;
+        }
+
+        async function cariDiksi() {
+            const akhiran = document.getElementById("akhiran").value;
+            const res = await fetch("/diksi", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ akhiran })
+            });
+            const data = await res.json();
+            const list = document.getElementById("hasil_diksi");
+            list.innerHTML = "";
+            data.hasil.forEach(kata => {
+                const li = document.createElement("li");
+                li.innerText = kata;
+                list.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>
